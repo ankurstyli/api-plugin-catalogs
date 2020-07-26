@@ -311,6 +311,19 @@ export const CatalogProductVariant = CatalogProductOption.clone().extend({
   }
 });
 
+export const MultiLang = new SimpleSchema({
+  "en": {
+    type: String,
+    optional: true,
+    label: "English name"
+  },
+  "ar": {
+    type: String,
+    optional: true,
+    label: "Arabic name"
+  }
+});
+
 /**
  * @name CatalogProduct
  * @memberof Schemas
@@ -361,7 +374,7 @@ export const CatalogProduct = new SimpleSchema({
     label: "Date/time this product was created at"
   },
   "description": {
-    type: String,
+    type: MultiLang,
     label: "Product description",
     optional: true
   },
@@ -446,8 +459,11 @@ export const CatalogProduct = new SimpleSchema({
     optional: true
   },
   "shopId": {
-    type: String,
-    label: "Product ShopId"
+    type: Array,
+    label: "ShopId Array",
+  },
+  "shopId.$": {
+    type: String
   },
   "sku": {
     type: String,
@@ -547,9 +563,12 @@ export const Catalog = new SimpleSchema({
     type: Date,
     label: "Date/time this catalog item was created at"
   },
-  shopId: {
-    type: String,
-    label: "Product ShopId"
+  "shopId": {
+    type: Array,
+    label: "ShopId Array",
+  },
+  "shopId.$": {
+    type: String
   },
   updatedAt: {
     type: Date,

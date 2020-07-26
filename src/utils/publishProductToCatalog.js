@@ -15,7 +15,7 @@ import createCatalogProduct from "./createCatalogProduct.js";
 export default async function publishProductToCatalog(product, context) {
   const { appEvents, collections } = context;
   const { Catalog, Products } = collections;
-
+console.log('@publishProductToCatalog')
   const startTime = Date.now();
 
   // Convert Product schema object to Catalog schema object
@@ -50,9 +50,16 @@ export default async function publishProductToCatalog(product, context) {
     modifier,
     { upsert: true }
   );
+  console.log({
+        "product.productId": catalogProduct.productId
+      },
+      modifier,
+      { upsert: true }, '!!!Upsert!!!')
 
   const wasUpdateSuccessful = result && result.result && result.result.ok === 1;
+
   if (wasUpdateSuccessful) {
+    console.log(wasUpdateSuccessful, 'wasUpdateSuccessful@inside')
     // Update the Product hashes so that we know there are now no unpublished changes
     const productHash = await createProductHash(product, context.collections);
 
@@ -84,6 +91,6 @@ export default async function publishProductToCatalog(product, context) {
       productId: catalogProduct.productId
     }, "publishProductToCatalog finished");
   }
-
+  console.log(wasUpdateSuccessful, 'wasUpdateSuccessful@outside')
   return wasUpdateSuccessful;
 }

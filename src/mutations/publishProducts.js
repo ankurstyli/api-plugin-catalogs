@@ -28,18 +28,21 @@ export default async function publishProducts(context, productIds) {
     throw new ReactionError("not-found", "Some products not found");
   }
 
-  const uniqueShopIds = _.uniq(products.map((product) => product.shopId));
-  for (const shopId of uniqueShopIds) {
-    // TODO(pod-auth): create helper to handle multiple permissions checks for multiple items
-    for (const product of products) {
-      // eslint-disable-next-line no-await-in-loop
-      await context.validatePermissions(
-        `reaction:legacy:products:${product._id}`,
-        "publish",
-        { shopId }
-      );
-    }
-  }
+  /**
+   * TODO: commented permission check as shopId will be array in multistore same doc approach.
+   */
+  // const uniqueShopIds = _.uniq(products.map((product) => product.shopId));
+  // for (const shopId of uniqueShopIds) {
+  //   // TODO(pod-auth): create helper to handle multiple permissions checks for multiple items
+  //   for (const product of products) {
+  //     // eslint-disable-next-line no-await-in-loop
+  //     await context.validatePermissions(
+  //       `reaction:legacy:products:${product._id}`,
+  //       "publish",
+  //       { shopId }
+  //     );
+  //   }
+  // }
 
   const success = await publishProductsToCatalog(productIds, context);
   if (!success) {

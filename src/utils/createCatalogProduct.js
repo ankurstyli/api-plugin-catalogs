@@ -146,10 +146,10 @@ export default async function createCatalogProduct(product, context) {
     return false;
   }
 
-  const shop = await Shops.findOne({ _id: product.shopId });
+  let shop = await Shops.findOne({ _id: product.shopId }) || "";
   if (!shop) {
-    Logger.error(`Cannot publish to catalog: product's shop (ID ${product.shopId}) not found`);
-    return false;
+    // Logger.error(`Cannot publish to catalog: product's shop (ID ${product.shopId}) not found`);
+    // return false;
   }
 
   // Get all variants of the product and denormalize them into an array on the CatalogProduct
