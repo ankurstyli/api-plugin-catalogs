@@ -255,8 +255,11 @@ export const CatalogProductOption = new SimpleSchema({
     optional: true
   },
   "shopId": {
-    type: String,
-    label: "Product ShopId"
+    type: Array,
+    label: "ShopId Array",
+  },
+  "shopId.$": {
+    type: String
   },
   "sku": {
     type: String,
